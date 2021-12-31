@@ -18,6 +18,13 @@
     timestep = 1000 / 60;
 
 
+function backgroundMusic() {
+    x = new Audio("music.mp3");
+    x.autoplay = true;
+    x.loop = true;
+    x.play();
+}
+
 function gametime() {
     game_time = Math.random() * 60 * 1000;
     return game_time;
@@ -82,6 +89,7 @@ document.addEventListener('keypress', (e) => {
         console.log("down");
         key = 1;
         if (game_state == "Start") {
+            backgroundMusic();
             document.getElementsByClassName("snowman")[0].remove()
             game_start = Date.now()
             game_end = game_start + gametime();
