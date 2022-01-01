@@ -47,12 +47,13 @@ function snowmanSize(t) {
 function draw() {
    
     score_card = document.getElementById("score")
-    score_card.innerText = "Score: " + Math.round(score);
 
     time_card = document.getElementById("time")
     elapsed_card = document.getElementById("elapsed")
     if (game_state == "Play") {
-        elapsed_card.innerText = "Time elapsed: " + ((now - game_start) / 1000).toFixed(2)
+        var elapsed_time = ((now - game_start) / 1000).toFixed(2);
+        score_card.innerText = "Score: " + (score / elapsed_time).toFixed(2);
+        elapsed_card.innerText = "Time elapsed: " + elapsed_time;
     }
     if (key == 1 && game_state == "Play") {
         now = Date.now()
