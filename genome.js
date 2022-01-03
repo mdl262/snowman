@@ -43,6 +43,7 @@ class Genome {
         let values = brain.getValues()
         Object.keys(values).forEach(id => {
             let temp
+            id = Number(id)
             switch (id) {
                 case -1:
                     temp = "key"
@@ -77,7 +78,7 @@ class Genome {
         if (value < 0) {
             return this.mix("ff0000","ffffff",-value)
         }
-        if (value < 0) {
+        if (value >= 0) {
             return this.mix("0000ff", "ffffff", value)
         }
     }
