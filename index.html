@@ -8,15 +8,23 @@
 <body>
     <audio id="background_music" autoplay loop src="music.mp3"></audio>
 
-    <h2 style="position:absolute; right: 10px; bottom: 10px; z-index:1; font-size: 0.6rem;">Music: Animal Crossing: New Horizons - Toy Day (Northern Hemisphere) Extended</h2>
+    <h2 style="position:absolute; right: 10px; bottom: 10px; z-index:1; font-size: 0.6rem;">Music: Animal Crossing: New Horizons - Toy Day</h2>
     <div id="background"></div>
     <h1 id="score">Score:0</h1>
+    <h2 id="gen"></h2>
     <div class="snowflake">❆</div>
     <h1 id="time"></h1>
     <h1 id="elapsed">Time elapsed: </h1>
     <h1 id="title">Press and hold [space]</h1>
     <div class="snowman" style="background-image:url(sprite_4.png)"></div>
+
+
+    <!--<script language="javascript" type="text/javascript" src="./lib/NEAT_browser.js"></script>
+    <script language="javascript" type="text/javascript" src="genome.js"></script>-->
+    <script src="winner.js"></script>
+    <script src="genome.js"></script>
     <script src="snowman.js"></script>
+    <obj id="nn"  type="image/svg+xml" data="winner-feedforward-enabled-pruned.gv.svg"></obj>
 
 
 </body>
