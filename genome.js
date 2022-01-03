@@ -64,10 +64,10 @@ class Genome {
                     break
             }
             // "key" -> ("-1" ->) "node1"
-            console.log(id)
-            console.log(nodes[id])
-            console.log(netSvg.querySelector("#" + nodes[id] + " ellipse"))
-            netSvg.querySelector("#"+nodes[id]+" ellipse").style.fill = this.redWhiteBlue(values[id])
+            console.log(temp)
+            console.log(nodes[temp])
+            console.log(netSvg.querySelector("#" + nodes[temp] + " ellipse"))
+            netSvg.querySelector("#"+nodes[temp]+" ellipse").style.fill = this.redWhiteBlue(values[id])
         })
 
         // paint connections
