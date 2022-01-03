@@ -19,10 +19,10 @@
     delta = 0,
     timestep = 1000 / 30;
 
-
 // NEAT AI
 console.log(brain)
-let puppet 
+let puppet
+
 
 var hasMusic = false;
 function backgroundMusic() {
@@ -93,7 +93,7 @@ function startGameMode(mode) {
                 time = 0,
                 lastFrameTimeMs = 0,
                 delta = 0;
-            document.getElementById("nn").style.visibility = "hidden"
+            document.querySelector("#nn").style.visibility = "collapse"
             break;
         case 1: // NEAT AI
             key = 0,
@@ -108,7 +108,7 @@ function startGameMode(mode) {
                 lastFrameTimeMs = 0;
             puppet = new Genome()
             puppet.game_random_end = game_end - game_start
-            document.getElementById("nn").style.visibility = "visible"
+            document.querySelector("#nn").style.visibility = "visible"
 
             break;
         case 2: // 2-player

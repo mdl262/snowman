@@ -21,6 +21,88 @@ class Genome {
     show() {
     }
 
+    paintNet() {
+
+        //document.getElementById("nn").contentDocument.querySelector("svg").innerHTML
+
+        let netSvg = document.getElementById("nn").contentDocument || document.getElementById("nn").contentWindow.document
+        if (netSvg == null) return
+
+        let nodes = {}
+        netSvg.querySelectorAll(".node").forEach(e => {
+            let temp = e.querySelector("text").innerHTML
+            nodes[temp] = e.id
+        });
+        //let links = []
+        //netSvg.querySelectorAll(".edge title").forEach(e => {
+        //    links.push(e.innerHTML)
+        //    document.getElementById("nn").contentWindow.document.querySelectorAll(".edge title")[1].textContent
+        //});
+
+        // paint nodes
+        let values = this.getValues()
+        Object.keys(values).forEach(id => {
+            let temp
+            switch (id) {
+                case -1:
+                    temp = "key"
+                    break
+                case -2:
+                    temp = "game_elapsed"
+                    break
+                case -3:
+                    temp = "snow_elapsed"
+                    break
+                case 0:
+                    temp = "keydown"
+                    break
+                case 1:
+                    temp = "keyup"
+                    break
+                default:
+                    temp = id
+                    break
+            }
+            // "key" -> ("-1" ->) "node1
+            netSvg.querySelector("#"+nodes[id]+" ellipse").style.fill = this.redWhiteBlue(values[id])
+        })
+
+        // paint connections
+    }
+
+    redWhiteBlue(value) {
+        if (value < 0) {
+            return this.mix("ff0000","ffffff",-value)
+        }
+        if (value < 0) {
+            return this.mix("0000ff", "ffffff", value)
+        }
+    }
+
+    mix(color_1, color_2, weight) {
+        // from Jed Foster https://gist.github.com/jedfoster/7939513
+        function d2h(d) { return d.toString(16); }  // convert a decimal value to hex
+        function h2d(h) { return parseInt(h, 16); } // convert a hex value to decimal
+
+        weight = (typeof (weight) !== 'undefined') ? weight : 50; // set the weight to 50%, if that argument is omitted
+
+        var color = "#";
+
+        for (var i = 0; i <= 5; i += 2) { // loop through each of the 3 hex pairs—red, green, and blue
+            var v1 = h2d(color_1.substr(i, 2)), // extract the current pairs
+                v2 = h2d(color_2.substr(i, 2)),
+
+                // combine the current pairs from each source color, according to the specified weight
+                val = d2h(Math.floor(v2 + (v1 - v2) * (weight / 100.0)));
+
+            while (val.length < 2) { val = '0' + val; } // prepend a '0' if val results in a single digit
+
+            color += val; // concatenate val to our new color string
+        }
+
+        return color; // PROFIT!
+    };
+
     up() {
         if (this.key == 1) {
             console.log("AI up")
