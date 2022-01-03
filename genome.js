@@ -40,7 +40,7 @@ class Genome {
         //});
 
         // paint nodes
-        let values = this.getValues()
+        let values = brain.getValues()
         Object.keys(values).forEach(id => {
             let temp
             switch (id) {
