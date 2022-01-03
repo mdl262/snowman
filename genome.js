@@ -63,7 +63,10 @@ class Genome {
                     temp = id
                     break
             }
-            // "key" -> ("-1" ->) "node1
+            // "key" -> ("-1" ->) "node1"
+            console.log(id)
+            console.log(nodes[id])
+            console.log(netSvg.querySelector("#" + nodes[id] + " ellipse"))
             netSvg.querySelector("#"+nodes[id]+" ellipse").style.fill = this.redWhiteBlue(values[id])
         })
 
