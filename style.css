@@ -15,11 +15,19 @@ body {
 
 #score {
     position:absolute;
+    z-index:2;
+}
+
+#gen {
+    position: absolute;
+    top: 40px;
+    z-index: 2;
 }
 
 #elapsed {
     position: absolute;
     left: 80vw;
+    z-index: 2;
 }
 
 #time {
@@ -28,6 +36,7 @@ body {
     display:flex;
     justify-content:center;
     top:10vh;
+    z-index: 2;
 }
 
 #title {
@@ -42,8 +51,25 @@ body {
     z-index: 1;
 }
 
+#nn {
+    visibility:hidden;
+    margin:0;
+    position:absolute;
+    width:50vw;
+    height:30vh;
+    right:10px;
+    bottom:10px;
+    object-position:bottom right;
+    object-fit:contain;
+}
+    #nn object {
+        fill: transparent;
+    }
+
+
 .snowflake {
   font-size: 15px;
+  line-height: 15px;
   font-weight: normal;
   color: white;
   position: absolute;
