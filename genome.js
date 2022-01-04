@@ -67,7 +67,7 @@ class Genome {
             // "key" -> ("-1" ->) "node1"
             if (nodes[temp] != null) {
                 if (id != -1 && id != -2 && id != -3) {
-                    netSvg.querySelector("#" + nodes[temp] + " ellipse").style.fill = this.redWhiteBlue(values[id]/10)
+                    netSvg.querySelector("#" + nodes[temp] + " ellipse").style.fill = this.redWhiteBlue(values[id]/100)
                 } else {
                     netSvg.querySelector("#" + nodes[temp] + " ellipse").style.fill = this.redWhiteBlue(values[id] * 100)
                 }
@@ -79,9 +79,17 @@ class Genome {
 
     redWhiteBlue(value) {
         if (value < 0) {
+            if (value < -100) {
+                console.log(value)
+                return "#ff0000"
+            }
             return this.mix("ff0000","ffffff",-value)
         }
         if (value >= 0) {
+            if (value > 100) {
+                console.log(value)
+                return "#0000ff"
+            }
             return this.mix("0000ff", "ffffff", value)
         }
     }
