@@ -66,9 +66,11 @@ class Genome {
             }
             // "key" -> ("-1" ->) "node1"
             if (nodes[temp] != null) {
-                if (![-1, -2, -3].includes(id)) {
+                if (id != -1 && id != -2 && id != -3) {
                     netSvg.querySelector("#" + nodes[temp] + " ellipse").style.fill = this.redWhiteBlue(values[id])
-                } else netSvg.querySelector("#" + nodes[temp] + " ellipse").style.fill = this.redWhiteBlue(values[id] * 100)
+                } else {
+                    netSvg.querySelector("#" + nodes[temp] + " ellipse").style.fill = this.redWhiteBlue(values[id] * 100)
+                }
             }
         })
 
