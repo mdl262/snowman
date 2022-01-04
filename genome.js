@@ -52,7 +52,7 @@ class Genome {
                     temp = "game_elapsed"
                     break
                 case -3:
-                    temp = "snow_elapsed"
+                    temp = "snowman_elapsed"
                     break
                 case 0:
                     temp = "keydown"
