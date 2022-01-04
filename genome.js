@@ -65,10 +65,7 @@ class Genome {
                     break
             }
             // "key" -> ("-1" ->) "node1"
-            console.log(temp)
             if (nodes[temp] != null) {
-                console.log(nodes[temp])
-                console.log(netSvg.querySelector("#" + nodes[temp] + " ellipse"))
                 netSvg.querySelector("#" + nodes[temp] + " ellipse").style.fill = this.redWhiteBlue(values[id])
             }
         })
@@ -135,6 +132,8 @@ class Genome {
     act(action, real_game_elapsed) {
         if (action[0] > 0.5) this.down()
         else if (action[1] > 0.5) this.up()
+
+        this.paintNet()
 
         if (this.key == 1) {
             this.snowman_elapsed += (real_game_elapsed - this.game_elapsed)
