@@ -66,9 +66,11 @@ class Genome {
             }
             // "key" -> ("-1" ->) "node1"
             console.log(temp)
-            console.log(nodes[temp])
-            console.log(netSvg.querySelector("#" + nodes[temp] + " ellipse"))
-            netSvg.querySelector("#"+nodes[temp]+" ellipse").style.fill = this.redWhiteBlue(values[id])
+            if (nodes[temp] == null) {
+                console.log(nodes[temp])
+                console.log(netSvg.querySelector("#" + nodes[temp] + " ellipse"))
+                netSvg.querySelector("#" + nodes[temp] + " ellipse").style.fill = this.redWhiteBlue(values[id])
+            }
         })
 
         // paint connections
@@ -103,7 +105,7 @@ class Genome {
 
             color += val; // concatenate val to our new color string
         }
-
+        console.log(color)
         return color; // PROFIT!
     };
 
