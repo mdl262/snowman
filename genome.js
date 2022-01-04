@@ -66,7 +66,7 @@ class Genome {
             }
             // "key" -> ("-1" ->) "node1"
             if (nodes[temp] != null) {
-                netSvg.querySelector("#" + nodes[temp] + " ellipse").style.fill = this.redWhiteBlue(values[id])
+                netSvg.querySelector("#" + nodes[temp] + " ellipse").style.fill = this.redWhiteBlue(values[id]*100)
             }
         })
 
@@ -102,7 +102,6 @@ class Genome {
 
             color += val; // concatenate val to our new color string
         }
-        console.log(color)
         return color; // PROFIT!
     };
 
