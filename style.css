@@ -18,6 +18,13 @@ body {
     z-index:2;
 }
 
+#score2 {
+    position: absolute;
+    z-index: 2;
+    visibility: collapse;
+    right: 0;
+}
+
 #gen {
     position: absolute;
     top: 40px;
@@ -26,7 +33,9 @@ body {
 
 #elapsed {
     position: absolute;
-    left: 80vw;
+    width: 100%;
+    display: flex;
+    justify-content: right;
     z-index: 2;
 }
 
@@ -52,18 +61,17 @@ body {
 }
 
 #nn {
-    visibility:hidden;
     margin:0;
     position:absolute;
     width:50vw;
     height:30vh;
     right:10px;
     bottom:10px;
-    object-position:bottom right;
-    object-fit:contain;
+    z-index: 3;
+    visibility:collapse
 }
     #nn object {
-        fill: transparent;
+/*        fill: transparent;*/
     }
 
 
@@ -93,6 +101,26 @@ body {
     left: calc(50vw - 25px);
     position: absolute;
 }
+
+    .snowman.zero {
+        background-size: cover;
+        height: calc(50px * 1.54);
+        width: 50px;
+        bottom: 30vh;
+        left: calc(30vw - 25px);
+        right: auto;
+        position: absolute;
+    }
+
+    .snowman.one {
+        background-size: cover;
+        height: calc(50px * 1.54);
+        width: 50px;
+        bottom: 30vh;
+        left: auto;
+        right: calc(30vw - 25px);
+        position: absolute;
+    }
 
 .text {
     margin:0;

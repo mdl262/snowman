@@ -10,7 +10,6 @@
     snowman_end = 0,
     snowman_size = 0,
     minimum_size = 100,
-    previous_size = 50,
     score = 0,
     time = 0,
     delta = 0,
@@ -44,8 +43,14 @@ function gametime() {
 }
 
 
-function getSnowmanImage(x) {
-    x = x % 4 + 1;
+function getSnowmanImage(x, player = null) {
+    if (game_mode == 2) {
+        if (player == 0) {
+            x = x % 2 ? 1 : 3;
+        } else {
+            x = x % 2 ? 2 : 4;
+        }
+    } else x = x % 4 + 1;
     return "url(sprite_"+x+".png)"
 }
 
@@ -58,11 +63,6 @@ function snowmanSize(t) {
     return (t)
 }
 
-function addSnowman(size) {
-    if (size >= minimum_size) {
-        score += size * 100
-    }
-}
 
 function startGameMode(mode) {
     game_mode = mode;
@@ -76,6 +76,9 @@ function startGameMode(mode) {
     score_card = document.getElementById("score")
     score_card.style.color = "black";
     var snowmen = document.querySelectorAll(".snowman");
+    document.querySelector("#nn").style.visibility = "collapse";
+    document.querySelector("#score2").style.visibility = "collapse";
+    document.querySelector("#score2").style.color = "black";
     if (snowmen.length > 0) {
         snowmen.forEach((element) => {
             element.remove();
@@ -88,12 +91,10 @@ function startGameMode(mode) {
                 snowman_start = 0,
                 snowman_end = 0,
                 snowman_size = 0,
-                previous_size = 50,
                 score = 0,
                 time = 0,
                 lastFrameTimeMs = 0,
                 delta = 0;
-            document.querySelector("#nn").style.visibility = "collapse"
             break;
         case 1: // NEAT AI
             key = 0,
@@ -101,17 +102,24 @@ function startGameMode(mode) {
                 snowman_start = 0,
                 snowman_end = 0,
                 snowman_size = 0,
-                previous_size = 50,
                 score = 0,
                 time = 0,
                 delta = 0,
                 lastFrameTimeMs = 0;
-            puppet = new Genome()
-            puppet.game_random_end = game_end - game_start
+            puppet = new Genome();
+            puppet.game_random_end = game_end - game_start;
             document.querySelector("#nn").style.visibility = "visible"
 
             break;
         case 2: // 2-player
+            number_of_snowman = [0,0]
+            key = [0, 0];
+            snowman_start = [0, 0];
+            score = [0, 0];
+            time = 0;
+            delta = 0;
+            lastFrameTimeMs = 0;
+            document.querySelector("#score2").style.visibility = "visible";
             break;
     }
 
@@ -120,17 +128,21 @@ function startGameMode(mode) {
 function stopGameMode() {
     switch (game_mode) {
         case 0:
+            score_card = document.getElementById("score")
+            score_card.style.color = "red";
             break;
         case 1:
+            score_card = document.getElementById("score")
+            score_card.style.color = "red"; 
             break;
         case 2:
             break;
 
     }
-    console.log(score)
-    score = 0
+    console.log(score);
+    score = 0;
     game_state = "End";
-    console.log("GAME OVER")
+    console.log("GAME OVER");
     key = 0;
     title_card = document.getElementById("title")
     title_card.innerText = "GAME OVER!";
@@ -155,6 +167,7 @@ function draw() {
 
     time_card = document.getElementById("time")
     elapsed_card = document.getElementById("elapsed")
+    now = Date.now()
 
     switch (game_mode) {
         case 0:
@@ -162,6 +175,7 @@ function draw() {
                 var elapsed_time = ((now - game_start) / 1000).toFixed(2);
                 score_card.innerText = "Score: " + (score / elapsed_time).toFixed(2);
                 elapsed_card.innerText = "Time elapsed: " + elapsed_time;
+                elapsed_card.style.justifyContent = "right"
 
                 if (key == 1) time_card.innerText = ((Date.now() - snowman_start) / 1000).toFixed(2)
                 else time_card.innerText = ""
@@ -174,10 +188,20 @@ function draw() {
                 elapsed_card.innerText = "Time elapsed: " + elapsed_time;
                 score_card.innerText = "Score: " + (score / elapsed_time).toFixed(2);
                 if (puppet.key == 1) time_card.innerText = (puppet.snowman_elapsed / 1000).toFixed(2)
-                else time_card.innerText = ""
+                else time_card.innerText = "";
+                elapsed_card.style.justifyContent = "right"
             }
             break;
         case 2:
+            if (game_state == "Play") {
+                var elapsed_time = ((now - game_start) / 1000).toFixed(2);
+                score_card.innerText = "Score: " + (score[0] / elapsed_time).toFixed(2) + "\n" + (Boolean(key[0]) ? ((Date.now() - snowman_start[0]) / 1000).toFixed(2) : "");
+                score_card = document.getElementById("score2")
+                score_card.innerText = "Score: " + (score[1] / elapsed_time).toFixed(2) + "\n" + (Boolean(key[1]) ? ((Date.now() - snowman_start[1]) / 1000).toFixed(2) : "");
+                elapsed_card.innerText = "Time elapsed: " + elapsed_time;
+                elapsed_card.style.justifyContent = "center"
+                time_card.innerText = ""
+            }
             break;
 
     }
@@ -210,6 +234,18 @@ function update() {
             break;
 
         case 2:
+            if (Date.now() >= game_end && game_state == "Play") {
+                game_state = "End";
+                console.log("GAME OVER")
+                key = 0;
+                title_card = document.getElementById("title")
+                title_card.innerText = "GAME OVER!";
+                score_card = document.getElementById("score")
+                score_card.style.color = "red";
+                score_card = document.getElementById("score2")
+                score_card.style.color = "#00007f";
+
+            }
             break;
 
     }
@@ -236,6 +272,11 @@ document.addEventListener('keypress', (e) => {
                 startGameMode(1)
                 snowman_start = Date.now();
                 key = 0;
+            } else if (e.key == "3" && key == 0) {
+                console.log("down");
+                startGameMode(2)
+                snowman_start = [Date.now(),Date.now()];
+                key = [0,0];
             }
             break;
         case "Play":
@@ -255,6 +296,14 @@ document.addEventListener('keypress', (e) => {
                 case 1:
                     break;
                 case 2:
+                    if (e.key == 'q' && key[0] == 0) {
+                        snowman_start[0] = Date.now();
+                        key[0] = 1;
+                    }
+                    if (e.key == 'p' && key[1] == 0) {
+                        snowman_start[1] = Date.now();
+                        key[1] = 1;
+                    }
                     break;
             }
             break;
@@ -269,10 +318,13 @@ document.addEventListener('keypress', (e) => {
                 startGameMode(1)
                 snowman_start = Date.now();
                 key = 0;
+            } else if (e.key == "3" && key == 0) {
+                console.log("down");
+                startGameMode(2)
+                snowman_start = [Date.now(),Date.now()];
+                key = [0, 0];
             }
             break;
-
-
     }
 });
 
@@ -308,33 +360,50 @@ document.addEventListener('keyup', (e) => {
         case 1:
             break;
         case 2:
+            if (e.key == 'q' && key[0] == 1 && game_state == "Play") {
+                snowman_end = Date.now();
+                snowman_size = snowmanSize(snowman_end - snowman_start[0]);
+                addSnowman(snowman_size,0);
+                key[0] = 0;
+            }
+            if (e.key == 'p' && key[1] == 1 && game_state == "Play") {
+                snowman_end = Date.now();
+                snowman_size = snowmanSize(snowman_end - snowman_start[1]);
+                addSnowman(snowman_size,1);
+                key[1] = 0;
+            }
             break;
     }
 
     
 });
 
-function addSnowman(size) {
+function addSnowman(size, player = null) {
     //console.log("snowman!")
     // Minimum size
     if (size >= minimum_size) {
 
+        let snowmen
         switch (game_mode) {
             case 0:
                 score += size / 10;
+                snowmen = document.querySelectorAll(".snowman");
                 break;
             case 1:
                 score += size / 10
+                snowmen = document.querySelectorAll(".snowman");
                 break;
             case 2:
+                score[player] += size / 10
+                if (player == 0) snowmen = document.querySelectorAll(".snowman.zero");
+                else if (player == 1) snowmen = document.querySelectorAll(".snowman.one");
+                console.log(snowmen.length)
                 break;
         }
 
         size = size * 0.05 // cosmetic scaling
 
         // Shift all other snowmen
-        var snowmen = document.querySelectorAll(".snowman");
-
         if (snowmen.length > 0) {
             previous_size = snowmen[snowmen.length - 1].getBoundingClientRect().width;
             snowmen.forEach((element) => {
@@ -343,10 +412,23 @@ function addSnowman(size) {
 
                 // Delete the snowmen if they have moved out
                 // of the screen hence saving memory
-                if (snowmen_props.right <= 0) {
+                if (snowmen_props.right <= 0 || snowmen_props.left >= innerWidth) {
                     element.remove();
                 } else {
-                    element.style.left = (snowmen_props.left - previous_size / 2 - size / 2 - 10) + "px"
+                    switch (player) {
+                        case 0:
+                            element.style.left = (snowmen_props.left - previous_size/ 2 - size / 2 - 10) + "px"
+                            break;
+                        case 1:
+                            element.style.right = (00) + "px"
+                            element.style.right = (innerWidth - snowmen_props.right - previous_size / 2 - size / 2 - 10) + "px"
+                            //element.style.left = "auto";
+                            console.log((innerWidth - snowmen_props.right - previous_size / 2 - size / 2 - 10) + "px")
+                            break;
+                        case null:
+                            element.style.left = (snowmen_props.left - previous_size / 2 - size / 2 - 10) + "px"
+                            break;
+                    }
                 }
             });
 
@@ -354,13 +436,29 @@ function addSnowman(size) {
 
         // Add new snowman
         var new_snowman = document.createElement('div');
-        new_snowman.className = 'snowman';
+        switch (player) {
+            case 0:
+                new_snowman.className = 'snowman zero';
+                new_snowman.style.left = 'calc(30% - ' + size / 2 + 'px)';
+                new_snowman.style.backgroundImage = getSnowmanImage(number_of_snowman[0],0);
+                number_of_snowman[0]++;
+                break;
+            case 1:
+                new_snowman.className = 'snowman one';
+                new_snowman.style.right = 'calc(30% - ' + size / 2 + 'px)';
+                new_snowman.style.backgroundImage = getSnowmanImage(number_of_snowman[1],1);
+                number_of_snowman[1]++;
+                break;
+            default:
+                new_snowman.className = 'snowman';
+                new_snowman.style.left = 'calc(50% - ' + size / 2 + 'px)';
+                new_snowman.style.backgroundImage = getSnowmanImage(number_of_snowman);
+                number_of_snowman++;
+                break;
+        }
         new_snowman.style.width = size + 'px';
         new_snowman.style.height = (size * 1.54) + 'px';
-        new_snowman.style.left = 'calc(50% - ' + size / 2 + 'px)';
-        new_snowman.style.backgroundImage = getSnowmanImage(number_of_snowman);
         document.body.appendChild(new_snowman);
-        number_of_snowman++;
     }
 
 }
