@@ -18,6 +18,17 @@
     delta = 0,
     timestep = 1000 / 30;
 
+// Help menu
+document.getElementById("help").addEventListener("click", function (event) {
+    alert("\tSingle-player mode:\nPress [1] or [space] to start. Press and hold [space] to make a snowman.\n" +
+        "\tAI mode:\nPress [2] to start.\n" +
+        "\t2-player local mode:\nPress [3] to start. Player 1 uses [Q], Player 2 uses [P].\n" +
+        "\t2-player online mode:\nPress [4] to start.\n" +
+        "\tStop game with [Z]."
+        )
+});
+
+
 // NEAT AI
 console.log(brain)
 let puppet
@@ -121,6 +132,20 @@ function startGameMode(mode) {
             lastFrameTimeMs = 0;
             document.querySelector("#score2").style.visibility = "visible";
             break;
+        case 3:
+            document.querySelector(".p2p_wrapper").style.visibility = "visible";
+            var peer = new Peer()
+            peer.on("open", function (id) {
+                console.log(id)
+                document.querySelector(".p2p_wrapper h1").innerText = "My code: " + id
+            })
+            document.querySelector(".p2p_wrapper button").addEventListener("click", function (event) {
+                let code = document.querySelector(".p2p_wrapper input").innerText
+                const dataConnection = peer.connect(code);
+            })
+            game_state = "Connecting"
+            break;
+
     }
 
 }
