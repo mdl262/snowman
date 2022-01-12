@@ -136,7 +136,7 @@ function startGameMode(mode) {
             break;
         case 3:
             document.querySelector(".p2p_wrapper").style.visibility = "visible";
-            peer = new Peer()
+            peer = new Peer({ host: 'snowman-game0127.herokuapp.com', secure: true, port: 443 })
             peer.on("open", function (id) {
                 console.log(id)
             })
@@ -240,9 +240,11 @@ function getUrlHostId() {
 window.onload = (function(event){
     var host = getUrlHostId()
     if (host != "undefined") {
-        peer = new Peer()
+        peer = new Peer({ host: 'snowman-game0127.herokuapp.com', secure: true, port: 443 })
         peer.on("open", function (id) {
             conn = peer.connect(host);
+            console.log(conn)
+            console.log(conn.open)
             conn.on('open', function () {
                 console.log("GUEST-HOST OPEN")
                 conn.send({"guest": peer.id})
