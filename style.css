@@ -95,6 +95,9 @@ body {
     flex-direction: column;
     visibility: hidden;
 }
+    .p2p_wrapper button:active {
+        color: aqua;
+    }
 
 .snowflake {
   font-size: 15px;

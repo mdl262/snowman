@@ -17,6 +17,9 @@
     maxFPS = 30,
     delta = 0,
     timestep = 1000 / 30;
+var final_score
+var peer
+var conn
 
 // Help menu
 document.getElementById("help").addEventListener("click", function (event) {
@@ -55,7 +58,7 @@ function gametime() {
 
 
 function getSnowmanImage(x, player = null) {
-    if (game_mode == 2) {
+    if (game_mode == 2 || game_mode == 3) {
         if (player == 0) {
             x = x % 2 ? 1 : 3;
         } else {
@@ -73,7 +76,6 @@ function snowmanSize(t) {
     //t = Math.round(t)
     return (t)
 }
-
 
 function startGameMode(mode) {
     game_mode = mode;
@@ -134,14 +136,90 @@ function startGameMode(mode) {
             break;
         case 3:
             document.querySelector(".p2p_wrapper").style.visibility = "visible";
-            var peer = new Peer()
+            peer = new Peer()
             peer.on("open", function (id) {
                 console.log(id)
-                document.querySelector(".p2p_wrapper h1").innerText = "My code: " + id
             })
+            peer.on('connection', function (c) {
+                c.on('data', function (data) {
+                    //console.log("HOST")
+                    // Will print 'this is a test'
+                    //console.log(data);
+                    if (data["guest"] != null) {
+                        conn = peer.connect(data["guest"]);
+                        conn.on('open', function () {
+                            console.log("HOST-GUEST OPEN")
+                            game_start = Date.now() + 3000
+                            game_end = game_start + gametime();
+                            conn.send({ "game_end": game_end , "game_start":game_start})
+                            console.log(game_end)
+                            score = [0, 0];
+                            game_state = "Countdown"
+                        });
+                        number_of_snowman = [0, 0]
+                        key = [0, 0];
+                        snowman_start = [0, 0];
+                        time = 0;
+                        delta = 0;
+                        lastFrameTimeMs = 0;
+                        document.querySelector("#score2").style.visibility = "visible";
+                        document.querySelector(".p2p_wrapper").style.visibility = "hidden";
+                    }
+                    if (data["game_end"] != null) {
+                        number_of_snowman = [0, 0]
+                        key = [0, 0];
+                        snowman_start = [0, 0];
+                        number_of_snowman = [0, 0]
+                        score = [0, 0];
+                        time = 0;
+                        delta = 0;
+                        lastFrameTimeMs = 0;
+
+                        game_mode = 3;
+                        backgroundMusic();
+                        title_card = document.getElementById("title");
+                        title_card.innerText = "";
+                        game_start = data["game_start"]
+                        game_end = data["game_end"]
+                        console.log(game_end)
+                        score_card = document.getElementById("score")
+                        score_card.style.color = "black";
+                        var snowmen = document.querySelectorAll(".snowman");
+                        document.querySelector("#nn").style.visibility = "collapse";
+                        document.querySelector("#score2").style.visibility = "visible";
+                        document.querySelector("#score2").style.color = "black";
+                        if (snowmen.length > 0) {
+                            snowmen.forEach((element) => {
+                                element.remove();
+                            });
+                        }
+                        document.querySelector("#score2").style.visibility = "visible";
+                        game_state = "Countdown"
+                    }
+                    if (data["snowman_start"] != null) snowman_start[1] = data["snowman_start"]
+                    if (data["score"] != null) {
+                        score[1] = data["score"]
+                        //console.log(score)
+                    }
+                    if (data["key"] != null) {
+                        if (data["key"] == 0 && key[1] == 1) {
+                            snowman_end = Date.now();
+                            snowman_size = snowmanSize(snowman_end - snowman_start[1]);
+                            addSnowman(snowman_size, 1);
+                        }
+                        key[1] = data["key"]
+                    }
+                    if (data["final_score"] != null) {
+                        final_score = data["final_score"]
+                    }
+                    
+                });
+            });
             document.querySelector(".p2p_wrapper button").addEventListener("click", function (event) {
-                let code = document.querySelector(".p2p_wrapper input").innerText
-                const dataConnection = peer.connect(code);
+                let currentUrl = window.location.href
+                var hostUrl = currentUrl.includes("?") ? currentUrl.substring(0, currentUrl.indexOf("?")) : currentUrl
+                hostUrl += "?host=" + encodeURI(peer.id)
+                navigator.clipboard.writeText(hostUrl)
             })
             game_state = "Connecting"
             break;
@@ -149,6 +227,84 @@ function startGameMode(mode) {
     }
 
 }
+
+function getUrlHostId() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
+        vars[key] = value;
+    });
+    return decodeURI(vars["host"]);
+}
+
+
+window.onload = (function(event){
+    var host = getUrlHostId()
+    if (host != "undefined") {
+        peer = new Peer()
+        peer.on("open", function (id) {
+            conn = peer.connect(host);
+            conn.on('open', function () {
+                console.log("GUEST-HOST OPEN")
+                conn.send({"guest": peer.id})
+            });
+            
+        })
+        peer.on('connection', function (conn) {
+            conn.on('data', function (data) {
+                // Will print 'this is a test'
+                if (data["game_end"] != null) {
+                    number_of_snowman = [0, 0]
+                    key = [0, 0];
+                    snowman_start = [0, 0];
+                    number_of_snowman = [0,0]
+                    score = [0, 0];
+                    time = 0;
+                    delta = 0;
+                    lastFrameTimeMs = 0;
+
+                    game_mode = 3;
+                    backgroundMusic();
+                    title_card = document.getElementById("title");
+                    title_card.innerText = "";
+                    game_start = data["game_start"]
+                    game_end = data["game_end"]
+                    console.log(game_end)
+                    score_card = document.getElementById("score")
+                    score_card.style.color = "black";
+                    var snowmen = document.querySelectorAll(".snowman");
+                    document.querySelector("#nn").style.visibility = "collapse";
+                    document.querySelector("#score2").style.visibility = "visible";
+                    document.querySelector("#score2").style.color = "black";
+                    if (snowmen.length > 0) {
+                        snowmen.forEach((element) => {
+                            element.remove();
+                        });
+                    }
+                    document.querySelector("#score2").style.visibility = "visible";
+                    game_state = "Countdown"
+                }
+                if (data["snowman_start"] != null) snowman_start[1] = data["snowman_start"]
+                if (data["score"] != null) {
+                    score[1] = data["score"]
+                    //console.log(score)
+                }
+                if (data["key"] != null) {
+                    if (data["key"] == 0 && key[1] == 1) {
+                        snowman_end = Date.now();
+                        snowman_size = snowmanSize(snowman_end - snowman_start[1]);
+                        addSnowman(snowman_size, 1);
+                    } 
+                    key[1] = data["key"]
+                }
+                if (data["final_score"] != null) {
+                    final_score = data["final_score"]
+                }
+            });
+        });
+    }
+})
+
+//document.addEventListener("click", function(e) {navigator.clipboard.writeText("ASSSSSSSD")})
 
 function stopGameMode() {
     switch (game_mode) {
@@ -161,6 +317,8 @@ function stopGameMode() {
             score_card.style.color = "red"; 
             break;
         case 2:
+            score_card = document.getElementById("score")
+            score_card.style.color = "red";
             break;
 
     }
@@ -171,8 +329,6 @@ function stopGameMode() {
     key = 0;
     title_card = document.getElementById("title")
     title_card.innerText = "GAME OVER!";
-    score_card = document.getElementById("score")
-    score_card.style.color = "red";
 
 }
 
@@ -228,7 +384,39 @@ function draw() {
                 time_card.innerText = ""
             }
             break;
+        case 3:
+            if (game_state == "Connecting") {
+                elapsed_card.innerText = "Time elapsed: " + elapsed_time;
+                elapsed_card.style.justifyContent = "center"
+                time_card.innerText = ""
+            } else if (game_state == "Countdown") {
+                let title_card = document.getElementById("title")
+                if (Date.now() > game_start) {
+                    title_card.innerText = ""
+                    game_state = "Play"
+                } else if (Date.now() + 1000 > game_start) {
+                    title_card.innerText = "1";
+                } else if (Date.now() + 2000 > game_start) {
+                    title_card.innerText = "2";
+                } else title_card.innerText = "3";
+            }else if (game_state == "Play") {
+                
 
+                conn.send({ "score": score[0], "snowman_start": snowman_start[0], "key": key[0] })
+                var elapsed_time = ((now - game_start) / 1000).toFixed(2);
+                score_card.innerText = "Score: " + (score[0] / elapsed_time).toFixed(2) + "\n" + (Boolean(key[0]) ? ((Date.now() - snowman_start[0]) / 1000).toFixed(2) : "");
+                conn.send({ "final_score": (score[0] / elapsed_time).toFixed(2) })
+                score_card = document.getElementById("score2")
+                score_card.innerText = "Score: " + (score[1] / elapsed_time).toFixed(2) + "\n" + (Boolean(key[1]) ? ((Date.now() - snowman_start[1]) / 1000).toFixed(2) : "");
+                elapsed_card.innerText = "Time elapsed: " + elapsed_time;
+                elapsed_card.style.justifyContent = "center"
+                time_card.innerText = ""
+            } else if (game_state == "End") {
+                score_card = document.getElementById("score2")
+                score_card.innerText = score_card.innerText.replace("Score: .+\n","Score: "+final_score+"\n")
+                //score_card.innerText = "Score: " + final_score + "\n" + (Boolean(key[1]) ? ((Date.now() - snowman_start[1]) / 1000).toFixed(2) : "");
+            }
+            break;
     }
 
 }
@@ -262,7 +450,22 @@ function update() {
             if (Date.now() >= game_end && game_state == "Play") {
                 game_state = "End";
                 console.log("GAME OVER")
-                key = 0;
+                key = [0,0];
+                title_card = document.getElementById("title")
+                title_card.innerText = "GAME OVER!";
+                score_card = document.getElementById("score")
+                score_card.style.color = "red";
+                score_card = document.getElementById("score2")
+                score_card.style.color = "#00007f";
+
+            }
+            break;
+
+        case 3:
+            if (Date.now() >= game_end && game_state == "Play") {
+                game_state = "End";
+                console.log("GAME OVER")
+                key = [0,0];
                 title_card = document.getElementById("title")
                 title_card.innerText = "GAME OVER!";
                 score_card = document.getElementById("score")
@@ -300,8 +503,13 @@ document.addEventListener('keypress', (e) => {
             } else if (e.key == "3" && key == 0) {
                 console.log("down");
                 startGameMode(2)
-                snowman_start = [Date.now(),Date.now()];
-                key = [0,0];
+                snowman_start = [Date.now(), Date.now()];
+                key = [0, 0];
+            } else if (e.key == "4" && key == 0) {
+                console.log("down");
+                startGameMode(3)
+                snowman_start = [Date.now(), Date.now()];
+                key = [0, 0];
             }
             break;
         case "Play":
@@ -330,6 +538,12 @@ document.addEventListener('keypress', (e) => {
                         key[1] = 1;
                     }
                     break;
+                case 3:
+                    if (e.key == ' ' && key[0] == 0) {
+                        snowman_start[0] = Date.now();
+                        key[0] = 1;
+                    }
+                    break;
             }
             break;
         case "End":
@@ -346,7 +560,23 @@ document.addEventListener('keypress', (e) => {
             } else if (e.key == "3" && key == 0) {
                 console.log("down");
                 startGameMode(2)
-                snowman_start = [Date.now(),Date.now()];
+                snowman_start = [Date.now(), Date.now()];
+                key = [0, 0];
+            } else if (e.key == "4") {
+                console.log("down");
+                game_start = Date.now() + 3000
+                game_end = game_start + gametime();
+                conn.send({ "game_end": game_end, "game_start": game_start })
+                console.log(game_end)
+                score = [0, 0];
+                var snowmen = document.querySelectorAll(".snowman");
+                if (snowmen.length > 0) {
+                    snowmen.forEach((element) => {
+                        element.remove();
+                    });
+                }
+                game_state = "Countdown"
+                snowman_start = [Date.now(), Date.now()];
                 key = [0, 0];
             }
             break;
@@ -398,13 +628,20 @@ document.addEventListener('keyup', (e) => {
                 key[1] = 0;
             }
             break;
+        case 3:
+            if (e.key == ' ' && key[0] == 1 && game_state == "Play") {
+                snowman_end = Date.now();
+                snowman_size = snowmanSize(snowman_end - snowman_start[0]);
+                addSnowman(snowman_size, 0);
+                key[0] = 0;
+            }
+            break;
     }
 
     
 });
 
 function addSnowman(size, player = null) {
-    //console.log("snowman!")
     // Minimum size
     if (size >= minimum_size) {
 
@@ -422,7 +659,13 @@ function addSnowman(size, player = null) {
                 score[player] += size / 10
                 if (player == 0) snowmen = document.querySelectorAll(".snowman.zero");
                 else if (player == 1) snowmen = document.querySelectorAll(".snowman.one");
-                console.log(snowmen.length)
+                break;
+            case 3:
+                if (player == 0) {
+                    score[player] += size / 10
+                    snowmen = document.querySelectorAll(".snowman.zero");
+                }
+                else if (player == 1) snowmen = document.querySelectorAll(".snowman.one");
                 break;
         }
 
@@ -445,10 +688,7 @@ function addSnowman(size, player = null) {
                             element.style.left = (snowmen_props.left - previous_size/ 2 - size / 2 - 10) + "px"
                             break;
                         case 1:
-                            element.style.right = (00) + "px"
                             element.style.right = (innerWidth - snowmen_props.right - previous_size / 2 - size / 2 - 10) + "px"
-                            //element.style.left = "auto";
-                            console.log((innerWidth - snowmen_props.right - previous_size / 2 - size / 2 - 10) + "px")
                             break;
                         case null:
                             element.style.left = (snowmen_props.left - previous_size / 2 - size / 2 - 10) + "px"
