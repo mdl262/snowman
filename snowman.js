@@ -136,7 +136,7 @@ function startGameMode(mode) {
             break;
         case 3:
             document.querySelector(".p2p_wrapper").style.visibility = "visible";
-            peer = new Peer({ debug: 3, host: 'snowman-game0127.herokuapp.com', secure: true, port: 443 })
+            peer = new Peer({ host: 'snowman-game0127.herokuapp.com', secure: true, port: 443, path: '/', debug: 3, config: { 'iceServers': [{ url: 'stun:stun.l.google.com:19302' }, { url: 'turn:numb.viagenie.ca', username: 'mdl262@cornell.edu', credential: 'Qq145678' }] } });
             peer.on("open", function (id) {
                 console.log(id)
             })
@@ -241,7 +241,7 @@ function getUrlHostId() {
 window.onload = (function(event){
     var host = getUrlHostId()
     if (host != "undefined") {
-        peer = new Peer({ debug:3, host: 'snowman-game0127.herokuapp.com', secure: true, port: 443 })
+        peer = new Peer({ host: 'snowman-game0127.herokuapp.com', secure: true, port: 443, path: '/', debug: 3, config: { 'iceServers': [{ url: 'stun:stun.l.google.com:19302' }, { url: 'turn:numb.viagenie.ca', username: 'mdl262@cornell.edu', credential: 'Qq145678' }] } });
         peer.on("open", function (id) {
             conn = peer.connect(host);
             console.log(conn)
