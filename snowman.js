@@ -136,7 +136,7 @@ function startGameMode(mode) {
             break;
         case 3:
             document.querySelector(".p2p_wrapper").style.visibility = "visible";
-            peer = new Peer({ host: 'snowman-game0127.herokuapp.com', secure: true, port: 443, path: '/', debug: 3, config: { 'iceServers': [{ url: 'stun:stun.l.google.com:19302' }, { url: 'turn:numb.viagenie.ca', username: 'mdl262@cornell.edu', credential: 'Qq145678' }] } });
+            peer = new Peer({ host: 'snowman-game0127.herokuapp.com', secure: true, port: 443, path: '/', debug: false, config: { 'iceServers': [{ url: 'stun:stun.l.google.com:19302' }, { url: 'turn:numb.viagenie.ca', username: 'mdl262@cornell.edu', credential: 'Qq145678' }] } });
             peer.on("open", function (id) {
                 console.log(id)
             })
@@ -241,7 +241,7 @@ function getUrlHostId() {
 window.onload = (function(event){
     var host = getUrlHostId()
     if (host != "undefined") {
-        peer = new Peer({ host: 'snowman-game0127.herokuapp.com', secure: true, port: 443, path: '/', debug: 3, config: { 'iceServers': [{ url: 'stun:stun.l.google.com:19302' }, { url: 'turn:numb.viagenie.ca', username: 'mdl262@cornell.edu', credential: 'Qq145678' }] } });
+        peer = new Peer({ host: 'snowman-game0127.herokuapp.com', secure: true, port: 443, path: '/', debug: false, config: { 'iceServers': [{ url: 'stun:stun.l.google.com:19302' }, { url: 'turn:numb.viagenie.ca', username: 'mdl262@cornell.edu', credential: 'Qq145678' }] } });
         peer.on("open", function (id) {
             conn = peer.connect(host);
             console.log(conn)
@@ -406,7 +406,7 @@ function draw() {
             }else if (game_state == "Play") {
                 
 
-                conn.send({ "score": score[0], "snowman_start": snowman_start[0], "key": key[0] })
+                //conn.send({ "score": score[0], "snowman_start": snowman_start[0], "key": key[0] })
                 var elapsed_time = ((now - game_start) / 1000).toFixed(2);
                 score_card.innerText = "Score: " + (score[0] / elapsed_time).toFixed(2) + "\n" + (Boolean(key[0]) ? ((Date.now() - snowman_start[0]) / 1000).toFixed(2) : "");
                 conn.send({ "final_score": (score[0] / elapsed_time).toFixed(2) })
@@ -546,6 +546,7 @@ document.addEventListener('keypress', (e) => {
                     if (e.key == ' ' && key[0] == 0) {
                         snowman_start[0] = Date.now();
                         key[0] = 1;
+                        conn.send({ "snowman_start": snowman_start[0], "key": key[0] })
                     }
                     break;
             }
@@ -638,6 +639,7 @@ document.addEventListener('keyup', (e) => {
                 snowman_size = snowmanSize(snowman_end - snowman_start[0]);
                 addSnowman(snowman_size, 0);
                 key[0] = 0;
+                conn.send({ "score": score[0], "key": key[0] })
             }
             break;
     }
