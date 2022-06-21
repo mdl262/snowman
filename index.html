@@ -368,7 +368,8 @@
             }
 
             function hideAddressBar() {
-                window.scrollTo(0,1)
+                window.scrollTo(0, 1)
+                document.getElementsByClassName("container")[0].style.height = window.innerHeight + "px"
             }
 
             function mobileOnly() {
@@ -378,7 +379,7 @@
                 }
             }
 
-            mobileParallaxTextBackgrounds()
+            mobileOnly()
             window.addEventListener('resize', mobileOnly);
 
 
