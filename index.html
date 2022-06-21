@@ -1,38 +1,704 @@
-﻿<!DOCTYPE html>
-<html>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <link rel="stylesheet" href="style.css">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H95WL2XTMP"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-H95WL2XTMP');
+    </script>
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Max Dan Li - Engineer, Designer, Data Scientist" property="twitter:title" />
+    <meta content="./ogimage.png" property="og:image">
+    <link href="./icons/touchicon.png" rel="apple-touch-icon">
+    <link href="./icons/shortcuticon.png" rel="shortcut icon" type="image/x-icon">
+    <title>Max Dan Li - Portfolio</title>
+    <link rel="stylesheet" href="./main.css" type="text/css">
+    <!--import flickity for mobile carousels-->
+    <link rel="stylesheet" href="./scripts/flickity.css" media="screen">
+    <script src="./scripts/flickity.pkgd.min.js"></script>
 </head>
 
-<body>
+    <body>
 
-    <h2 style="position:absolute; right: 10px; bottom: 10px; z-index:1; font-size: 0.6rem;">Music: Animal Crossing: New Horizons - Toy Day</h2>
-    <div id="background"></div>
-    <h1 id="score">Score:0</h1>
-    <h1 id="score2">Score:0</h1>
-    <div class="snowflake">❆</div>
-    <h1 id="time"></h1>
-    <h1 id="elapsed">Time elapsed: </h1>
-    <h1 id="title">Press and hold [space]</h1>
-    <div class="snowman" style="background-image:url(sprite_4.png)"></div>
-    <div class="p2p_wrapper">
-        <button>Copy host link to clipboard</button>
-    </div>
-    <h3 id="help">Help!</h3>
+        <div id="mobile-alert" style="display:none;">
+            <div onclick="this.parentNode.style.visibility='hidden'">𐌢</div>
+            <!--<div class="main-carousel flickity-enabled is-draggable" data-flickity="" tabindex="0" style="position:absolute; inset:0">
+                <div class="carousel-cell" style="width:100px">1</div>
+                <div class="carousel-cell" style="width:100px">2</div>
+                <div class="carousel-cell" style="width:100px">3</div>
+                <div class="carousel-cell" style="width:100px">4</div>
+                <div class="carousel-cell" style="width:100px">5</div>
+            </div>-->
+            <p>Hello! I'm currently working on making this website mobile-friendly. Please view <u>max-dan-li.com</u> on your computer! </p>
+        </div>
+
+        <div class="frame"></div>
+        <div class="frame"></div>
+        <div class="frame"></div>
+        <div class="frame" id="frame-bottom" style=" display: flex; justify-content: flex-end; align-items: center; padding-left: 2.5%; padding-right: 2.5%; ">
+            <p style="font-style: italic; transition-delay: 0s; opacity: 0;"></p>
+        </div>
+
+        <div class="gradient-background" style="background-image: radial-gradient(circle at -17.8079% -1.26409%, rgb(100, 23, 179) 0px, transparent 47%), radial-gradient(circle at -22.9935% 137.692%, rgb(25, 76, 189) 0px, transparent 52%), radial-gradient(circle at 24.8459% 122.631%, rgb(30, 37, 166) 0px, transparent 42%), radial-gradient(circle at 129.845% -10.3899%, rgb(159, 16, 201) 0px, transparent 52%), radial-gradient(circle at 72.9399% -19.3323%, rgb(61, 25, 189) 0px, transparent 41%), radial-gradient(circle at -47.1117% 97.5582%, rgb(115, 73, 252) 0px, transparent 47%), radial-gradient(circle at 103.695% -18.1481%, rgb(23, 113, 179) 0px, transparent 40%), radial-gradient(circle at 63.1943% 7.90653%, rgb(16, 173, 201) 0px, transparent 52%);"></div>
+        <div class="container">
+
+            <section id="hero" style="position:relative">
+                <div class="grid-container">
+                    <img src="./silhouette.png" class="hero-image">
+                    <div class="hero-title-block">
+                        <h2>Mechanical engineering.<br>Data science. Design.</h2>
+                        <h1>Max Li</h1>
+                        <a class="outline-btn" style="text-decoration:none" href="resume.pdf">see cv</a>
+                        <a class="gradient-btn" style="padding-right: 12px; text-decoration: none;" href="#projects">see work ↓</a>
+                    </div>
+
+                </div>
+
+            </section>
+
+            <div class="parallax-wrap" style="perspective: 100px;  height:400vh; position: relative; overflow-x: clip;">
+            </div>
+            <section style="visibility: hidden; margin-left: 1%; position: absolute; height: 100vh; width: 0; top: 0;"></section>
+            <section style="visibility: hidden; margin-left: 1%; position: absolute; height: 100vh; width: 0; top: 100vh;"></section>
+            <section style="visibility: hidden; margin-left: 1%; position: absolute; height: 100vh; width: 0; top: 200vh;"></section>
+            <section style="visibility: hidden; margin-left: 1%; position: absolute; height: 100vh; width: 0; top: 300vh;"></section>
+            <section style="visibility: hidden; margin-left: 1%; position: absolute; height: 100vh; width: 0; top: 400vh;"></section>
 
 
-    <!--<script language="javascript" type="text/javascript" src="./lib/NEAT_browser.js"></script>
-    <script language="javascript" type="text/javascript" src="genome.js"></script>-->
-    <script src="winner.js"></script>
-    <script src="genome.js"></script>
-    <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
-    <script src="snowman.js"></script>
-    <object id="nn" type="image/svg+xml"
-            data="winner-feedforward-enabled-pruned.gv.svg">
-        <
-    </object>
+            <!--Carousel-->
 
-</body>
 
+
+
+            <div id="projects" class="parallax-text-block">
+
+
+                <div class="main-carousel" data-flickity='{"cellAlign":"center","contain":true, "wrapAround": true, "autoPlay": true, "draggable": true}'>
+                    <div class="carousel-cell">
+                        <div class="card">
+                            <img src="./carousel/auv/aurora.png" loading="lazy">
+                            <img src="./carousel/auv/fea.png" loading="lazy">
+                            <img src="./carousel/auv/machining.jpg" loading="lazy">
+                            <img src="./carousel/auv/sub.gif" loading="lazy">
+                            <img src="./carousel/auv/assembly.jpg" loading="lazy">
+                            <img src="./carousel/auv/sheet.png" loading="lazy">
+                            <div class="carousel-text-wrapper">
+                                <h1>Cornell Uni. Autonomous Underwater Vehicles</h1>
+                                <div></div>
+                                <p>RoboSub 2019-2022, CAD design, FEA, QA, cross-team integration, 200+ hrs real manufacturing experience</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-cell">
+                        <div class="card">
+                            <img src="./carousel/blackbox/app.gif" loading="lazy" style="grid-area:1 / 1 / 3 / 2">
+                            <img src="./carousel/blackbox/github.png" loading="lazy">
+                            <img src="./carousel/blackbox/firebase.png" loading="lazy" style="object-fit:contain;">
+                            <img src="./carousel/blackbox/posters.png" loading="lazy">
+                            <img src="./carousel/blackbox/scan.gif" loading="lazy">
+                            <div class="carousel-text-wrapper">
+                                <h1>Contact Tracing App</h1>
+                                <div></div>
+                                <p>Hackathon, Android, Kotlin, SQL, with NFC/QR de/encode, installed in 5 local businesses</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-cell">
+                        <div class="card">
+                            <img src="./carousel/real/bestworst.png" loading="lazy">
+                            <img src="./carousel/real/fl.png" loading="lazy">
+                            <img src="./carousel/real/ratio.png" loading="lazy" style="grid-area:2 / 1 / 3 / 3">
+                            <img src="./carousel/real/tableau.png" loading="lazy">
+                            <img src="./carousel/real/texas.png" loading="lazy">
+                            <div class="carousel-text-wrapper">
+                                <h1>Real Estate Data Analysis</h1>
+                                <div></div>
+                                <p>Zillow data visualized in Tableau, automated Python processing, pending Florida Real Estate License</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-cell">
+                        <div class="card">
+                            <img src="./carousel/snowman/home.png" loading="lazy">
+                            <img src="./carousel/snowman/peer.png" loading="lazy">
+                            <img src="./carousel/snowman/fitness.png" loading="lazy">
+                            <img src="./carousel/snowman/species.png" loading="lazy">
+                            <img src="./carousel/snowman/graph.gif" loading="lazy" style="grid-area: 3 / 1 / 4 / 3; object-position:bottom;">
+                            <div class="carousel-text-wrapper">
+                                <h1>Snowman Game</h1>
+                                <div></div>
+                                <p>Custom web game with NEAT machine learning, multiplayer P2P server, HTML/CSS/JS, Python<br><br><span style="text-transform:lowercase">...all for an inside joke with my girlfriend</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-cell">
+                        <div class="card">
+                            <img src="./carousel/c4/files.png" loading="lazy">
+                            <img src="./carousel/c4/terminal.png" loading="lazy" style="object-position:left; grid-area:1 / 2 / 3 / 2">
+                            <img src="./carousel/c4/tboard.png" loading="lazy">
+                            <img src="./carousel/c4/wins.png" loading="lazy" style="grid-area:3 / 1 / 3 / 3">
+                            <div class="carousel-text-wrapper">
+                                <h1>Connect 4 MARL</h1>
+                                <div></div>
+                                <p>Work-in-progress custom multi-agent gym environment for A2C and PPO testing, Tensorboard, Python machine learning with stable_baselines3</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-wrap">
+                    <div class="carousel">
+                        <div class="card">
+                            <img src="./carousel/auv/aurora.png" loading="lazy">
+                            <img src="./carousel/auv/fea.png" loading="lazy">
+                            <img src="./carousel/auv/machining.jpg" loading="lazy">
+                            <img src="./carousel/auv/sub.gif" loading="lazy">
+                            <img src="./carousel/auv/assembly.jpg" loading="lazy">
+                            <img src="./carousel/auv/sheet.png" loading="lazy">
+                            <div class="carousel-text-wrapper">
+                                <h1>Cornell Uni. Autonomous Underwater Vehicles</h1>
+                                <div></div>
+                                <p>RoboSub 2019-2022, CAD design, FEA, QA, cross-team integration, 200+ hrs real manufacturing experience</p>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <img src="./carousel/blackbox/app.gif" loading="lazy" style="grid-area:1 / 1 / 3 / 2">
+                            <img src="./carousel/blackbox/github.png" loading="lazy">
+                            <img src="./carousel/blackbox/firebase.png" loading="lazy" style="object-fit:contain;">
+                            <img src="./carousel/blackbox/posters.png" loading="lazy">
+                            <img src="./carousel/blackbox/scan.gif" loading="lazy">
+                            <div class="carousel-text-wrapper">
+                                <h1>Contact Tracing App</h1>
+                                <div></div>
+                                <p>Hackathon, Android, Kotlin, SQL, with NFC/QR de/encode, installed in 5 local businesses</p>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <img src="./carousel/real/bestworst.png" loading="lazy">
+                            <img src="./carousel/real/fl.png" loading="lazy">
+                            <img src="./carousel/real/ratio.png" loading="lazy" style="grid-area:2 / 1 / 3 / 3">
+                            <img src="./carousel/real/tableau.png" loading="lazy">
+                            <img src="./carousel/real/texas.png" loading="lazy">
+                            <div class="carousel-text-wrapper">
+                                <h1>Real Estate Data Analysis</h1>
+                                <div></div>
+                                <p>Zillow data visualized in Tableau, automated Python processing, pending Florida Real Estate License</p>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <img src="./carousel/snowman/home.png" loading="lazy">
+                            <img src="./carousel/snowman/peer.png" loading="lazy">
+                            <img src="./carousel/snowman/fitness.png" loading="lazy">
+                            <img src="./carousel/snowman/species.png" loading="lazy">
+                            <img src="./carousel/snowman/graph.gif" loading="lazy" style="grid-area: 3 / 1 / 4 / 3; object-position:bottom;">
+                            <div class="carousel-text-wrapper">
+                                <h1>Snowman Game</h1>
+                                <div></div>
+                                <p>Custom web game with NEAT machine learning, multiplayer P2P server, HTML/CSS/JS, Python<br><br><span style="text-transform:lowercase">...all for an inside joke with my girlfriend</span></p>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <img src="./carousel/c4/files.png" loading="lazy">
+                            <img src="./carousel/c4/terminal.png" loading="lazy" style="object-position:left; grid-area:1 / 2 / 3 / 2">
+                            <img src="./carousel/c4/tboard.png" loading="lazy">
+                            <img src="./carousel/c4/wins.png" loading="lazy" style="grid-area:3 / 1 / 3 / 3">
+                            <div class="carousel-text-wrapper">
+                                <h1>Connect 4 MARL</h1>
+                                <div></div>
+                                <p>Work-in-progress custom multi-agent gym environment for A2C and PPO testing, Tensorboard, Python machine learning with stable_baselines3</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="parallax-text-block" style="transform: scale(.84) translateZ(16px); top: 200vh;">
+                <div class="grid-container" style="align-items: start;">
+                    <div id="img1" class="box-shadow odd">
+                    </div>
+                </div>
+            </div>
+            <div class="parallax-text-block" style="transform: scale(.9) translateZ(10px);top: 200vh;">
+                <div class="grid-container" style="align-items: start;">
+                    <div class="parallax-text odd">
+                        <div id="para1">
+                            <h1 class="parallax" style="visibility:hidden">iPhone Technical Operations</h1>
+                            <p>My 6 months at Apple were entirely virtual. Working on the mass production-end of Apple's optics and camera business allowed me to collaborate intensely with teams in machine learning, data services, and on-site management. As an independent project owner &amp; DRI, I showcased my ability to learn from across the disciplines to simplify cavity-level analytics, develop new Python packages for 40x faster actionable data. As someone with a public speaking background, I embraced the Apple culture of strong presenters to deliver concise and effective technical keynotes to Senior Directors, receiving glowing praise.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="parallax-text-block" style="transform: scale(.78) translateZ(22px); top: 200vh;">
+                <div class="grid-container" style="align-items: start;">
+                    <div class="parallax-text odd">
+                        <h1 class="parallax">iPhone Technical Operations</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="parallax-text-block" style="transform: scale(.88) translateZ(12px); top: 200vh; pointer-events: none;">
+                <div class="grid-container" style="align-items: start; pointer-events: none;">
+                    <div class="parallax-text odd">
+                        <div id="para1" style="pointer-events: none;">
+                            <h1 class="parallax" style="visibility:hidden">iPhone Technical Operations</h1>
+                            <p style="visibility:hidden">My 6 months at Apple were entirely virtual. Working on the mass production-end of Apple's optics and camera business allowed me to collaborate intensely with teams in machine learning, data services, and on-site management. As an independent project owner &amp; DRI, I showcased my ability to learn from across the disciplines to simplify cavity-level analytics, develop new Python packages for 40x faster actionable data. As someone with a public speaking background, I embraced the Apple culture of strong presenters to deliver concise and effective technical keynotes to Senior Directors, receiving glowing praise.</p>
+                            <a class="gradient-btn" style="margin-top: 3rem; display: block; visibility: hidden;">see docs</a>
+                        </div>
+                    </div>
+                    <div class="parallax-date">
+                        <h2 >2021</h2>
+                        <h3 >June</h3>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="parallax-text-block" style="transform: scale(.84) translateZ(16px); top: 300vh; ">
+                <div class="grid-container" style="align-items: start;">
+                    <div class="box-shadow even"></div>
+                </div>
+            </div>
+            <div class="parallax-text-block" style="transform: scale(.9) translateZ(10px);  top: 300vh;">
+                <div class="grid-container" style="align-items: start;">
+                    <div class="parallax-text even">
+                        <div id="para1">
+                            <h1 class="parallax" style="visibility:hidden">Engineering &amp; Business Development</h1>
+                            <p>BlueSpace.ai is an autonomous driving company in Series B. Working at an autonomous driving software startup gave me the valuable opportunity to wear many hats and work closely with the C-level management that includes a Forbes 30-under-30 CEO. My work covered engineering design of product prototypes, competitive analysis, web design/programming, and brand management. My critical contributions in design and implementation of mission-critical investor and partner materials culminated in BlueSpace's naming as a 2021 NASA iTech Cycle I winner.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="parallax-text-block" style="transform: scale(.78) translateZ(22px); top: 300vh; ">
+                <div class="grid-container" style="align-items: start;">
+                    <div class="parallax-text even">
+                        <h1 class="parallax">Engineering &amp; Business Development</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="parallax-text-block" style="transform: scale(.88) translateZ(12px); top: 300vh; pointer-events: none;">
+                <div class="grid-container" style="align-items: start; pointer-events: none;">
+                    <div class="parallax-text even">
+                        <div id="para1" style="pointer-events:none;">
+                            <h1 class="parallax" style="visibility:hidden">Engineering &amp; Business Development</h1>
+                            <p style="visibility:hidden">BlueSpace.ai is an autonomous driving company in Series B. Working at an autonomous driving software startup gave me the valuable opportunity to wear many hats and work closely with the C-level management that includes a Forbes 30-under-30 CEO. My work covered engineering design of product prototypes, competitive analysis, web design/programming, and brand management. My critical contributions in design and implementation of mission-critical investor and partner materials culminated in BlueSpace's naming as a 2021 NASA iTech Cycle I winner.</p>
+                            <a class="gradient-btn" style="margin-top: 3rem; display: block; visibility: hidden;">see docs</a>
+                        </div>
+                    </div>
+                    <div class="parallax-date">
+                        <h2 >2021</h2>
+                        <h3 >Jan</h3>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="parallax-text-block" style="transform: scale(.9) translateZ(10px);  top: 400vh;">
+                <div class="grid-container" style="align-items: start;">
+                    <div class="parallax-text odd">
+                        <div id="para1">
+                            <h1 class="parallax" style="visibility:hidden">Product &amp; Brand Management Consultant</h1>
+                            <p>Listener Pro is a Shenzhen consumer electronics company, specializing in audio devices. Working with the China team across timezones, I led the full overhaul of the company's online salesfront. On top of advising C-level executives in project management and business strategy, and preparing bilingual project reports and proposals, my work in web development and analytics boosted business inquiries 30-fold over the course of 4 months.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="parallax-text-block" style="transform: scale(.84) translateZ(16px); top: 400vh; ">
+                <div class="grid-container" style="align-items: start;">
+                    <div class="box-shadow odd" style=" ">
+                    </div>
+                </div>
+            </div>
+            <div class="parallax-text-block" style="transform: scale(.78) translateZ(22px); top: 400vh; ">
+                <div class="grid-container" style="align-items: start;">
+                    <div class="parallax-text odd">
+                        <h1 class="parallax">Product &amp; Brand Management Consultant</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="parallax-text-block" style="transform: scale(.88) translateZ(12px); top: 400vh; pointer-events: none;">
+                <div class="grid-container" style="align-items: start; pointer-events: none;">
+                    <div class="parallax-text odd">
+                        <div id="para1" style="pointer-events: none;">
+                            <h1 class="parallax" style="visibility:hidden">Product &amp; Brand Management Consultant</h1>
+                            <p style="visibility:hidden">Listener Pro is a Shenzhen consumer electronics company, specializing in audio devices. Working with the China team across timezones, I led the full overhaul of the company's online salesfront. On top of advising C-level executives in project management and business strategy, and preparing bilingual project reports and proposals, my work in web development and analytics boosted business inquiries 30-fold over the course of 4 months.</p>
+                            <a class="gradient-btn" style="margin-top: 3rem; display: block; visibility: hidden;">see docs</a>
+                        </div>
+                    </div>
+                    <div class="parallax-date">
+                        <h2 >2020</h2>
+                        <h3 >May</h3>
+                    </div>
+                </div>
+            </div>
+
+
+            <section id="contact" style="background-attachment: fixed;">
+                <div class="grid-container">
+                    <div style="grid-column: 2 / 7; grid-row: 2/5; justify-content:right; align-items:center">
+                        <div>
+                            <h1 class="link" style="cursor: pointer" href="mailto:mdl262@cornell.edu">
+                                Say Hi!<img src="./Icon feather-external-link.svg" style="margin: 1rem 0 1rem 1rem">
+                            </h1>
+                            <p style="font-size: 1.75rem; line-height: 2.8rem;">
+                                And shoot me an email at mdl262@cornell.edu.
+                            </p>
+                        </div>
+                    </div>
+                    <div style="grid-column: 6 / 12; grid-row: 1 / 6">
+                        <img class="signature" src="./MaxLiSignatureWhiteOutline.svg" style="object-fit:contain; max-width:100%;max-height:100%">
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <script>
+
+            // mobile only
+
+            function mobileParallaxTextBackgrounds() {
+                para_texts = document.querySelectorAll(".grid-container .parallax-text")
+                for (i = 0; i < para_texts.length; i += 3) {
+                    para_texts[i].style.background = "#171717"
+                }
+            }
+
+            function hideAddressBar() {
+                window.scrollTo(0,1)
+            }
+
+            function mobileOnly() {
+                if (window.innerWidth < 599) {
+                    mobileParallaxTextBackgrounds()
+                    hideAddressBar()
+                }
+            }
+
+            mobileParallaxTextBackgrounds()
+            window.addEventListener('resize', mobileOnly);
+
+
+            // fix flickity viewports
+            function flickViewport() {
+                var flickityVports = document.querySelectorAll(".flickity-viewport")
+                for (i = 0; i < flickityVports.length; i++) {
+                    flickityVports[i].style.height = "100%"
+                }
+            }
+            flickViewport()
+
+            // load content
+            url = window.location.href
+            var params = new URLSearchParams(url.split("?")[1])
+            var tag = "";
+            for (pair of params.entries()) {
+                if (pair[0] == "tag") tag = pair[1]
+            }
+
+            content = [
+                {
+                    "title": "iPhone Technical Operations",
+                    "year": "2021",
+                    "month": "June",
+                    "logo": "apple.svg",
+                    "style": {
+                        "background-color": "white"
+                    },
+                    "link": "",
+                    "tags": {
+                        "engineering": {
+                            "desc": "My 6 months at Apple were entirely virtual. Working on the mass production-end of Apple's optics and camera business allowed me to collaborate intensely with teams in machine learning, data services, and on-site management. As an independent project owner & DRI, I showcased my ability to learn from across the disciplines to simplify cavity-level analytics, develop new Python packages for 40x faster actionable data. As someone with a public speaking background, I embraced the Apple culture of strong presenters to deliver concise and effective technical keynotes to Senior Directors, receiving glowing praise."
+                        },
+                        "data": {
+                            "desc": {}
+                        },
+                        "business": {
+                            "desc": {}
+                        }
+                    }
+                },
+                {
+                    "title": "Engineering & Business Development",
+                    "year": "2021",
+                    "month": "Jan",
+                    "logo": "bluespace.png",
+                    "style": {
+                        "background-color": "rgb(12, 46, 106)",
+                        "background-position": "50% 45%",
+                        "background-size": "80%"
+                    },
+                    "link": "",
+                    "tags": {
+                        "engineering": {
+                            "desc": "BlueSpace.ai is an autonomous driving company in Series B. Working at an autonomous driving software startup gave me the valuable opportunity to wear many hats and work closely with the C-level management that includes a Forbes 30-under-30 CEO. My work covered engineering design of product prototypes, competitive analysis, web design/programming, and brand management. My critical contributions in design and implementation of mission-critical investor and partner materials culminated in BlueSpace's naming as a 2021 NASA iTech Cycle I winner."
+                        },
+                        "data": {
+                            "desc": {}
+                        },
+                        "business": {
+                            "desc": {}
+                        }
+                    }
+                },
+                {
+                    "title": "Product & Brand Management Consultant",
+                    "year": "2020",
+                    "month": "May",
+                    "logo": "listenerpro.png",
+                    "style": {
+                        "background-color": "rgb(23, 23, 23)",
+                        "background-position": "50% 45%"
+                    },
+                    "link": "",
+                    "tags": {
+                        "engineering": {
+                            "desc": "Listener Pro is a Shenzhen consumer electronics company, specializing in audio devices. Working with the China team across timezones, I led the full overhaul of the company's online salesfront. On top of advising C-level executives in project management and business strategy, and preparing bilingual project reports and proposals, my work in web development and analytics boosted business inquiries 30-fold over the course of 4 months."
+                        },
+                        "data": {
+                            "desc": {}
+                        },
+                        "business": {
+                            "desc": {}
+                        }
+                    }
+                }
+            ]
+            for (i = 0; i < content.length; i++) {
+                //titles
+                title = content[i].title
+                document.querySelectorAll(".grid-container div h1.parallax")[i * 3].innerHTML = title
+                document.querySelectorAll(".grid-container div h1.parallax")[i * 3 + 1].innerHTML = title
+                document.querySelectorAll(".grid-container div h1.parallax")[i * 3 + 2].innerHTML = title
+
+                //logos
+                for (var key in content[i].style) {
+                    document.querySelectorAll(".grid-container .box-shadow")[i].style[key] = content[i].style[key]
+                }
+                document.querySelectorAll(".grid-container .box-shadow")[i].style.backgroundImage = "url(\"logos/" + content[i].logo + "\")"
+
+                //dates
+                document.querySelectorAll(".parallax-text-block .grid-container h2")[i].innerHTML = content[i].year
+                document.querySelectorAll(".parallax-text-block .grid-container h3")[i].innerHTML = content[i].month
+
+                //links
+                if (content[i].link != "") {
+                    document.querySelectorAll(".parallax-text-block a")[i].href = content[i].link;
+                } else {
+                    document.querySelectorAll(".parallax-text-block a")[i].style.visibility = "hidden";
+                }
+
+                //desc
+                tags = Object.keys(content[i].tags)
+                if (tag in tags) {
+                    desc = content[i].tags[tag].desc
+                    document.querySelectorAll(".parallax-text-block .grid-container p")[i * 2].innerText = desc
+                    document.querySelectorAll(".parallax-text-block .grid-container p")[i * 2 + 1].innerText = desc
+                } else {
+                    desc = content[i].tags[tags[0]].desc
+                    document.querySelectorAll(".parallax-text-block .grid-container p")[i * 2].innerText = desc
+                    document.querySelectorAll(".parallax-text-block .grid-container p")[i * 2 + 1].innerText = desc
+                }
+
+            }
+
+
+            // carousel animation
+            if (window.innerWidth > 599) {
+                var scrolling = false;
+                var carousel_period = 80
+                document.getElementsByClassName("container")[0].addEventListener("scroll", function () {
+                    scrolling = true;
+                });
+
+                var carousel0 = document.querySelectorAll(".carousel")[0];
+
+                carousel0.style.left = (window.outerWidth - carousel0.getBoundingClientRect().width) + "px";
+                carousel0.style.right = "auto";
+                carousel0.style.transition = carousel_period + "s all linear";
+                carousel0.style.left = (-1 - carousel0.getBoundingClientRect().width) + "px";
+
+
+                function cardTextJustify() {
+                    var debug = ""
+                    card_texts = document.querySelectorAll(".carousel-wrap .carousel-text-wrapper")
+                    if (card_texts[0].style.justifyContent == "") {
+                        card_texts[0].style.justifyContent = "flex-start";
+                    }
+                    for (i = 1; i < card_texts.length; i++) {
+                        if (card_texts[i - 1].style.justifyContent == "flex-start") {
+                            card_texts[i].style.justifyContent = "flex-end";
+                            debug += "end\n"
+                        } else if (card_texts[i - 1].style.justifyContent == "flex-end") {
+                            card_texts[i].style.justifyContent = "flex-start";
+                            debug += "start\n"
+                        }
+                    }
+                }
+
+                cardTextJustify()
+            }
+
+
+            function carousel() {
+                if (!scrolling && window.innerWidth > 599) {
+
+                    var carousel_wrap = document.getElementsByClassName("carousel-wrap")[0]
+                    carousel_wrap.style.width = window.outerWidth + "px"
+                    var carousels = document.querySelectorAll(".carousel");
+
+                    // generate carousels responsively
+                    if (carousels[carousels.length - 1].getBoundingClientRect().right < window.innerWidth) {
+                        clone = carousels[0].cloneNode(true);
+
+                        //clone.style.left = carousels[carousels.length - 1].getBoundingClientRect().right + "px";
+                        
+                        clone.style.left = carousels[carousels.length - 1].getBoundingClientRect().right + "px";
+                        clone.style.transition = "none";
+                        clone.style.right = "auto";
+                        carousels[carousels.length - 1].parentNode.appendChild(clone);
+                        clone.style.transition = carousel_period + "s all linear";
+                        clone.style.left = (carousels[carousels.length - 1].getBoundingClientRect().right - 1 - clone.getBoundingClientRect().width) + "px";
+                        cardTextJustify()
+
+                    }
+
+                    // delete carousels off-screen responsively
+                    if (carousels[0].getBoundingClientRect().right < 1) {
+                        carousels[0].parentNode.removeChild(carousels[0])
+                    }
+
+                    // bug patch - overlapping carousel
+                    carousels = document.querySelectorAll(".carousel");
+                    for (i = 0; i < carousels.length - 1; i++) {
+                        if (carousels[i].getBoundingClientRect().right > carousels[i + 1].getBoundingClientRect().left) {
+                            var carousel = carousels[i]
+
+                            carousel.style.left = (carousels[i + 1].getBoundingClientRect().left - carousels[i + 1].getBoundingClientRect().width - 10) + "px";
+                            carousel.style.transition = "none";
+                            carousel.style.right = "auto";
+                            carousel.style.transition = carousel_period + "s all linear";
+                            carousel.style.left = (carousels[i + 1].getBoundingClientRect().left - 11 - 2 * carousels[i + 1].getBoundingClientRect().width) + "px";
+
+                        }
+                    }
+
+
+
+                    //cardTextJustify()
+
+                    // shift all carousels
+                    //var speed = 0.5 // px/frame
+                    //carousels = document.querySelectorAll(".carousel");
+                    //for (i = 0; i < carousels.length; i++) {
+                    //    if (carousels[i].style.left == "") prev_pos = 0
+                    //    else prev_pos = parseFloat(carousels[i].style.left.replace("px", ""))
+                    //    carousels[i].style.left = String(prev_pos - speed) + "px";
+                    //}
+                }
+
+                scrolling = false;
+            }
+
+
+            // frame animation
+            function reveal() {
+                var reveals = document.querySelectorAll(".frame");
+                var elementBottom = document.getElementsByClassName("parallax-text-block")[0].getBoundingClientRect().bottom
+                var windowHeight = window.innerHeight;
+                var elementVisible = 1;
+
+                for (var i = 0; i < reveals.length; i++) {
+
+                    //var elementTop = reveals[i].getBoundingClientRect().top;
+
+                    if (Math.abs(elementBottom - windowHeight) < elementVisible) {
+                        reveals[i].classList.add("active");
+                        document.querySelectorAll(".frame p")[0].style.transitionDelay = "2s";
+                        document.querySelectorAll(".frame p")[0].style.opacity = 0.7;
+                    } else {
+                        reveals[i].classList.remove("active");
+                        document.querySelectorAll(".frame p")[0].style.transitionDelay = "0s";
+                        document.querySelectorAll(".frame p")[0].style.opacity = 0;
+                    }
+                }
+
+            }
+            // END OF frame animation
+
+            // gradient background animation
+            // x, y, color, transparency, v_r, v_theta, a_r, a_theta
+            let state = [
+                [98, 10, "#6417B3", 47, 0.01, 10, 0, 0],
+                [88, 78, "#194CBD", 52, 0.01, 90, 0, 0],
+                [56, 16, "#1E25A6", 42, 0.01, 120, 0, 0],
+                [20, 21, "#9F10C9", 52, 0.01, 230, 0, 0],
+                [40, 41, "#3D19BD", 41, 0.01, 121, 0, 0],
+                [97, 58, "#7349FC", 47, 0.01, 13, 0, 0],
+                [35, 12, "#1771B3", 40, 0.01, 350, 0, 0],
+                [88, 93, "#10ADC9", 52, 0.01, 70, 0, 0]
+            ];
+
+            function background() {
+                gradient_style = "";
+                for (i = 0; i < state.length; i++) {
+                    temp = state[i];
+                    gradient_style += "radial-gradient(circle at " + String(temp[0]) + "% " + String(temp[1]) + "%, " + temp[2] + " 0, transparent " + String(temp[3]) + "%),";
+                    //iterate state
+                    state[i][0] = (state[i][0] + state[i][4] * Math.cos(state[i][5] / 180 * Math.PI))
+                    state[i][0] = state[i][0] > 150 ? state[i][0] = -50 : state[i][0]
+                    state[i][0] = state[i][0] < -50 ? state[i][0] = 150 : state[i][0]
+                    state[i][1] = (state[i][1] + state[i][4] * Math.sin(state[i][5] / 180 * Math.PI))
+                    state[i][1] = state[i][1] > 150 ? state[i][1] = -50 : state[i][1]
+                    state[i][1] = state[i][1] < -50 ? state[i][1] = 150 : state[i][1]
+                    state[i][4] = (state[i][4] + state[i][6]) % 0.1;
+                    state[i][5] = (state[i][5] + state[i][7]) % 360
+                    state[i][6] = (state[i][6] + 7 * (Math.random() - 0.5) + 100) % 30
+                    state[i][7] = (state[i][7] + 15 * (Math.random() - 0.5)) % 10
+
+                }
+                gradient_style = gradient_style.substring(0, gradient_style.length - 1);
+                document.getElementsByClassName("gradient-background")[0].style.backgroundImage = gradient_style
+            }
+
+            function animateCallback() {
+                flickViewport()
+                background()
+                reveal()
+                carousel()
+                requestAnimationFrame(animateCallback)
+            }
+
+            requestAnimationFrame(animateCallback)
+
+
+            // END OF gradient background animation
+
+
+
+
+            function hex(number) {
+                var str = Number(parseInt(number)).toString(16);
+                return str.length == 1 ? "0" + str : str;
+            };
+            var boxes = document.querySelectorAll(".box-shadow");
+            var box;
+            var shadow;
+            var opacity = 2;
+            var distance = 500;
+            var max_blur = 30;
+            var angle = 60 / 180 * Math.PI;
+            for (id = 0; id < boxes.length; id++) {
+                shadow = "";
+                box = boxes[id];
+                for (var i = 0; i < distance; i += 5) {
+                    shadow += (shadow ? "," : "") + i * Math.sin(angle) + 'px ' + i * Math.cos(angle) + 'px ' + (max_blur * i / distance) + 'px #161616' + hex(opacity / 100 * (distance - i) / distance * 255)
+                }
+                box.style.boxShadow = shadow;
+            }
+        </script>
+    </body>
 </html>
